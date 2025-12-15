@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Estilos personalizados del slider */
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    background: #D1D5DB; /* Gris visible */
+    height: 8px;
+    border-radius: 4px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    margin-top: -6px; /* Centrar el thumb */
+    width: 20px;
+    height: 20px;
+    background: #F97316;
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+input[type="range"]:focus {
+    outline: none;
+}
+
+/* Scrollbar personalizada para el Drawer */
+.scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* --- EFECTOS DE LIBRO REALISTA (FLIPBOOK) --- */
+
+.perspective-2000 {
+  perspective: 2500px; /* Perspectiva más lejana para suavizar la distorsión */
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+/* El eje de rotación es el borde izquierdo (el lomo) */
+.origin-left {
+  transform-origin: left center;
+}
+
+/* Rotación para pasar la página hacia la izquierda */
+.rotate-y-180 {
+  transform: rotateY(-180deg);
+}
+
+/* --- SOMBRAS PARA EFECTO "ONDEADO" (CURVA) --- */
+
+/* Sombra estática del lomo (profundidad central) */
+.spine-shadow {
+  box-shadow: inset 25px 0 40px -10px rgba(0, 0, 0, 0.4);
+}
+
+/* Sombra dinámica para la página mientras gira (simula la curva) */
+/* Esta clase se aplicará condicionalmente en JS */
+.page-bending-shadow {
+  background: linear-gradient(
+    to right,
+    rgba(0,0,0,0.1) 0%,
+    rgba(0,0,0,0.3) 5%,
+    rgba(0,0,0,0.4) 40%,
+    rgba(0,0,0,0.1) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.6s;
+}
+
+.group:hover .page-bending-shadow {
+    opacity: 1; /* Flash de sombra al pasar el mouse (opcional) */
+}
