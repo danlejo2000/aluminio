@@ -14,7 +14,7 @@ const QuoteDrawer = ({ isOpen, onClose, cart, onRemoveItem }) => {
 
   // Generar link de WhatsApp
   const whatsappLink = useMemo(() => {
-    const phone = "573001234567"; // ¡CAMBIA ESTO POR TU NÚMERO REAL!
+    const phone = "573167700403";
     let text = "¡Hola Aluminios OTTO! Me interesa cotizar los siguientes productos:%0A%0A";
     
     cart.forEach((item, index) => {

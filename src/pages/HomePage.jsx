@@ -2,31 +2,16 @@ import { useState } from 'react';
 import { productData } from '../data/products';
 import { useShop } from '../context/ShopContext';
 import CatalogFlipbook from '../components/CatalogFlipbook';
+import {useEffect } from 'react';
 
 // ==========================================
-// CONFIGURACIÓN DE GRUPOS DEL CATÁLOGO
-// (Estos nombres coinciden EXACTAMENTE con tu productData.js)
+// CONFIGURACIÓN DE GRUPOS DEL CATÁLOGO ACTUALIZADA
+// Basada en los sistemas reales de products.js
 // ==========================================
 const PRODUCT_GROUPS = {
-    'Perfilería y Estructural': [
-        'Perfilería en Aluminio',
-        'Ángulos de lados iguales',
-        'Platinas',
-        'Tubos Circulares',
-        'Tubulares Cuadrados',
-        'Tubulares Rectangulares'
-    ],
-    'Sistemas de Puertas y Ventanas': [
-        'Puerta Corrediza 7038',
-        'Puerta Batiente Sideral',
-        'Ventana Corrediza VC-5020',
-        'Ventana Proyectante'
-    ],
-    'Arquitectura y Especiales': [
-        'Fachada Flotante',
-        'Divisiones de Oficina',
-        'Vitrinas Comerciales',
-        'Cielorrasos'
+    'Productos principales': [
+        'Sistemas de Ventanas',
+        'Sistemas de Puertas'
     ]
 };
 
@@ -34,18 +19,37 @@ const HomePage = () => {
   const { openCategory } = useShop();
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
 
-  // Función para obtener la imagen de portada
-  // Busca primero diagramImg, luego detailImg, y si falla, pone un fallback.
+
+  useEffect(() => {
+    const video = document.getElementById('hero-video');
+    
+    // Si el video existe, forzamos que se reproduzca (algunos navegadores lo pausan al recargar)
+    if (video) {
+      video.play().catch(error => console.log("Auto-play prevenido:", error));
+
+      const handleTimeUpdate = () => {
+        const buffer = 0.5;
+        if (video.duration - video.currentTime < buffer) {
+          video.style.opacity = "0.2"; 
+        } else {
+          video.style.opacity = "0.5"; 
+        }
+      };
+
+      video.addEventListener('timeupdate', handleTimeUpdate);
+      return () => video.removeEventListener('timeupdate', handleTimeUpdate);
+    }
+  }, [isCatalogOpen]);
+
+  // Función para obtener la imagen de portada de la categoría
   const getCategoryCover = (catName) => {
       const products = productData[catName];
       
       if (products && products.length > 0) {
-          // Priorizamos diagramImg que es donde pusimos las fotos principales
           if (products[0].diagramImg) return products[0].diagramImg;
           if (products[0].detailImg) return products[0].detailImg;
       }
       
-      // Imagen de respaldo genérica (Metal/Aluminio) por si algo falla
       return 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=500&q=60'; 
   };
 
@@ -54,33 +58,49 @@ const HomePage = () => {
       {/* Componente del Libro Interactivo */}
       <CatalogFlipbook isOpen={isCatalogOpen} onClose={() => setIsCatalogOpen(false)} />
       
-      {/* === HERO SECTION === */}
-      <section id="inicio" className="relative h-[90vh] flex items-center justify-center overflow-hidden bg-otto-dark">
-         <div className="absolute inset-0 z-0">
-            {/* Imagen de fondo Hero */}
-            <img 
-               src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-               alt="Arquitectura Aluminio" 
-               className="w-full h-full object-cover opacity-60" 
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-otto-dark via-otto-dark/80 to-transparent"></div>
-         </div>
+{/* === HERO SECTION FULL SCREEN === */}
+<section id="inicio" className="relative w-full h-screen flex items-center justify-center overflow-hidden bg-otto-dark">
+    <div className="absolute inset-0 w-full h-full z-0">
+        {/* VIDEO SIN BORDES NEGROS */}
+<video 
+  id="hero-video"
+  autoPlay 
+  loop 
+  muted 
+  playsInline
+  webkit-playsinline="true"
+  key="hero-video-key" // Añadir una key ayuda a React a no perder el elemento
+  className="absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-700"
+  style={{ 
+    opacity: 0.5, 
+    transform: 'scale(1.20)', 
+    transformOrigin: 'center center' 
+  }}
+>
+  <source src="/Fondo.mp4" type="video/mp4" />
+  Tu navegador no soporta videos.
+</video>
+        
+        {/* Filtro oscuro para resaltar el texto */}
+        <div className="absolute inset-0 bg-gradient-to-b from-otto-dark/20 via-otto-dark/40 to-otto-dark/90"></div>
+    </div>
 
-         <div className="container mx-auto px-6 z-10 relative text-center">
-            <h1 className="text-5xl md:text-7xl font-extrabold font-heading text-white leading-tight mb-6 animate-fade-in-down">
+    {/* Contenido del Hero */}
+    <div className="container mx-auto px-6 z-10 relative text-center">
+        <h1 className="text-5xl md:text-7xl font-extrabold font-heading text-white leading-tight mb-6 drop-shadow-2xl">
             <span className="text-otto-orange block">Aluminios OTTO</span>
             Innovación y Durabilidad.
-            </h1>
-             <p className="text-xl md:text-2xl text-gray-300 mb-10 font-light max-w-3xl mx-auto animate-fade-in-up">
-                Tu socio estratégico en soluciones de aluminio para arquitectura y construcción moderna.
-             </p>
-             <div className="flex justify-center gap-4 animate-scaleIn delay-400">
-                <a href="#productos" className="px-10 py-4 bg-otto-orange text-white font-bold rounded-full shadow-lg hover:bg-orange-600 transition-all transform hover:-translate-y-1">
-                    Explora Nuestros Productos
-                </a>
-             </div>
-         </div>
-      </section>
+        </h1>
+        <p className="text-xl md:text-2xl text-gray-300 mb-10 font-light max-w-3xl mx-auto drop-shadow-md">
+            Tu socio estratégico en soluciones de aluminio para arquitectura y construcción moderna.
+        </p>
+        <div className="flex justify-center gap-4">
+            <a href="#productos" className="px-10 py-4 bg-otto-orange text-white font-bold rounded-full shadow-lg hover:bg-orange-600 transition-all transform hover:-translate-y-1">
+                Explora Nuestros Productos
+            </a>
+        </div>
+    </div>
+</section>
 
       {/* === SECCIÓN NOSOTROS === */}
       <section className="py-20 bg-white">
@@ -99,7 +119,7 @@ const HomePage = () => {
               <div className="md:w-1/2 relative">
                   <div className="absolute -inset-4 bg-otto-orange/20 rounded-2xl transform rotate-3"></div>
                   <img 
-                    src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80" 
+                    src="/assets/img/Worker 7.jfif" 
                     alt="Equipo de trabajo Aluminios OTTO" 
                     className="relative rounded-2xl shadow-2xl w-full h-auto object-cover" 
                   />
@@ -107,15 +127,15 @@ const HomePage = () => {
           </div>
       </section>
 
-      {/* === CATÁLOGO ORGANIZADO === */}
+      {/* === CATÁLOGO ORGANIZADO POR SISTEMAS TÉCNICOS === */}
       <section id="productos" className="py-24 bg-otto-dark relative">
           <div className="container mx-auto px-6 relative z-10">
                 <div className="text-center mb-12">
                   <h2 className="text-4xl md:text-5xl font-bold font-heading text-white">
-                    Nuestro Catálogo de <span className="text-otto-orange">Soluciones</span>
+                    Catálogo de <span className="text-otto-orange">Sistemas</span>
                   </h2>
                   <p className="mt-4 text-gray-400 max-w-2xl mx-auto text-lg">
-                    Explora nuestra variada oferta de perfiles y sistemas de aluminio, diseñados para cumplir con los más altos estándares de calidad.
+                    Sistemas de ingeniería clasificados por funcionalidad y rendimiento técnico.
                   </p>
                   
                   {/* Botón Libro Interactivo */}
@@ -132,48 +152,40 @@ const HomePage = () => {
                   </div>
                 </div>
 
-                {/* Iteramos sobre los GRUPOS definidos */}
                 {Object.entries(PRODUCT_GROUPS).map(([groupName, categories]) => (
                     <div key={groupName} className="mb-20">
-                        {/* Título del Grupo con detalle naranja */}
                         <div className="flex items-center mb-8 border-b border-gray-700 pb-4">
                             <div className="w-1.5 h-8 bg-otto-orange mr-4 rounded-full shadow-[0_0_10px_rgba(249,115,22,0.6)]"></div>
                             <h3 className="text-2xl md:text-3xl font-bold text-white font-heading">{groupName}</h3>
                         </div>
                         
-                        {/* Grid de Tarjetas */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-10 max-w-5xl mx-auto">
                             {categories.map((cat) => {
-                                // Seguridad: Si la categoría no existe en productData, no renderizamos nada para evitar errores
                                 if (!productData[cat]) return null;
 
                                 return (
                                     <button 
                                         key={cat} 
                                         onClick={() => openCategory(cat)} 
-                                        className="group relative h-64 w-full rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 text-left bg-otto-panel border border-gray-700"
+                                        className="group relative h-80 w-full rounded-3xl overflow-hidden shadow-2xl transition-all duration-500 hover:-translate-y-2 text-left bg-otto-panel border border-gray-700"
                                     >
-                                        {/* Imagen de Fondo */}
-                                        <div className="absolute inset-0 bg-gray-900">
+                                        <div className="absolute inset-0">
                                             <img 
                                                 src={getCategoryCover(cat)} 
                                                 alt={cat} 
-                                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-70 group-hover:opacity-100" 
-                                                // Manejo de error si la imagen externa falla
+                                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-40 group-hover:opacity-60" 
                                                 onError={(e) => {e.target.src = 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=500&q=60'}}
                                             />
-                                            {/* Degradado oscuro para que el texto se lea bien */}
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 group-hover:opacity-60 transition-opacity"></div>
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
                                         </div>
 
-                                        {/* Contenido de la Tarjeta */}
-                                        <div className="absolute bottom-0 left-0 w-full p-6">
-                                            <div className="w-10 h-10 mb-3 bg-otto-orange rounded-full flex items-center justify-center text-white transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 shadow-lg">
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg>
+                                        <div className="absolute bottom-0 left-0 w-full p-8">
+                                            <div className="w-12 h-12 mb-4 bg-otto-orange rounded-2xl flex items-center justify-center text-white transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 shadow-lg">
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                                             </div>
-                                            <h4 className="text-xl font-bold text-white mb-1 group-hover:text-otto-orange transition-colors shadow-sm">{cat}</h4>
-                                            <p className="text-sm text-gray-300 line-clamp-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
-                                                Ver productos disponibles
+                                            <h4 className="text-3xl font-bold text-white mb-2 group-hover:text-otto-orange transition-colors">{cat}</h4>
+                                            <p className="text-gray-300 font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                                Explorar soluciones técnicas →
                                             </p>
                                         </div>
                                     </button>
@@ -252,7 +264,7 @@ const HomePage = () => {
                             </div>
                             <div>
                                 <h4 className="font-bold text-lg">Llámanos</h4>
-                                <p className="text-gray-400">+57 (1) 123 4567</p>
+                                <p className="text-gray-400">+57 (316) 770 0403 - +57 (310) 205 9843</p>
                             </div>
                       </div>
                       <div className="flex items-start">
@@ -261,9 +273,21 @@ const HomePage = () => {
                             </div>
                             <div>
                                 <h4 className="font-bold text-lg">Escríbenos</h4>
-                                <p className="text-gray-400">contacto@aluminiosotto.com</p>
+                                <p className="text-gray-400"> aluminiosottosas@hotmail.com</p>
                             </div>
                       </div>
+                      <div className="flex items-start">
+                    <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center flex-shrink-0 mr-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-otto-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 className="ont-bold text-lg">Visítanos</h4>
+                        <p className="text-gray-400">Calle 68 # 28a-31 Bogotá, Colombia</p> 
+                    </div>
+                </div>
                   </div>
               </div>
 
