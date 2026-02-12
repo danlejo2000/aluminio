@@ -1,0 +1,35 @@
+/* ================================================
+   ALUMINIOS OTTO - _redirects Configuration
+   Para Netlify/Vercel - Redirects y SEO
+   ================================================ */
+
+# Forzar HTTPS
+http://aluminiosotto.com/*    https://aluminiosotto.com/:splat    301!
+http://www.aluminiosotto.com/*    https://aluminiosotto.com/:splat    301!
+
+# Redirecciones WWW
+https://www.aluminiosotto.com/*    https://aluminiosotto.com/:splat    301!
+
+# SPA Fallback (para React Router si lo implementas)
+/*    /index.html    200
+
+# Redirecciones SEO específicas (agregar según necesidad)
+/ventanas    /#productos    301
+/puertas    /#productos    301
+/contactar    /#contacto    301
+/servicios    /#servicios    301
+
+# Headers de seguridad y performance
+/*
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+  
+# Headers de caché
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/pdf/*
+  Cache-Control: public, max-age=2592000

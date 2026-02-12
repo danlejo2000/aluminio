@@ -1,0 +1,33 @@
+x# robots.txt para Aluminios OTTO
+# Optimizado para indexación completa en motores de búsqueda
+
+User-agent: *
+Allow: /
+Allow: /assets/
+Allow: /pdf/
+
+# Bloquear archivos innecesarios
+Disallow: /node_modules/
+Disallow: /*.json$
+Disallow: /*.config.js$
+
+# Sitemap
+Sitemap: https://www.aluminiosotto.com/sitemap.xml
+
+# Crawl-delay para bots pesados
+User-agent: Googlebot
+Crawl-delay: 0
+
+User-agent: Bingbot
+Crawl-delay: 1
+
+# SEO boost directives
+User-agent: Googlebot-Image
+Allow: /assets/img/
+
+# Directivas especiales para redes sociales
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /

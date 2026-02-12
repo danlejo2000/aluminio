@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+  
+  <!-- Página Principal -->
+  <url>
+    <loc>https://www.aluminiosotto.com/</loc>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://www.aluminiosotto.com/assets/img/Worker 7.jfif</image:loc>
+      <image:caption>Equipo profesional Aluminios OTTO</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Mapa del Sitio HTML -->
+  <url>
+    <loc>https://www.aluminiosotto.com/#sitemap</loc>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Sección Productos -->
+  <url>
+    <loc>https://www.aluminiosotto.com/#productos</loc>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Sistemas de Ventanas -->
+  <url>
+    <loc>https://www.aluminiosotto.com/ventanas-aluminio</loc>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://www.aluminiosotto.com/assets/img/Ventanas/VentanaCorre/ventanacorre.jfif</image:loc>
+      <image:caption>Ventanas corredizas de aluminio</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Ventana Corrediza Astral 345 -->
+  <url>
+    <loc>https://www.aluminiosotto.com/ventana-corrediza-astral-345</loc>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Ventana/Puerta Kimbaya -->
+  <url>
+    <loc>https://www.aluminiosotto.com/ventana-puerta-corrediza-kimbaya</loc>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Ventana Oscilo-Batiente Zinu -->
+  <url>
+    <loc>https://www.aluminiosotto.com/ventana-oscilo-batiente-zinu</loc>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Sistemas de Puertas -->
+  <url>
+    <loc>https://www.aluminiosotto.com/puertas-aluminio</loc>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://www.aluminiosotto.com/assets/img/Puertas/puertacorre/corre.jfif</image:loc>
+      <image:caption>Puertas corredizas de aluminio</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Puerta Plegable -->
+  <url>
+    <loc>https://www.aluminiosotto.com/puerta-plegable</loc>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Puerta Corrediza Colosal 345 -->
+  <url>
+    <loc>https://www.aluminiosotto.com/puerta-corrediza-colosal-345</loc>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Puerta Oscilo-Batiente Tairona -->
+  <url>
+    <loc>https://www.aluminiosotto.com/puerta-oscilo-batiente-tairona</loc>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Sección Servicios -->
+  <url>
+    <loc>https://www.aluminiosotto.com/#servicios</loc>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Sección Contacto -->
+  <url>
+    <loc>https://www.aluminiosotto.com/#contacto</loc>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Catálogo PDF -->
+  <url>
+    <loc>https://www.aluminiosotto.com/pdf/Colombia.pdf</loc>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>quarterly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+</urlset>

@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aluminios OTTO - Innovación y Calidad en Aluminio</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'otto-orange': '#F97316', // Un naranja vibrante (Tailwind orange-500)
+                        'otto-dark': '#4B5563',   // NUEVO: Gris plateado oscuro (Tailwind gray-600)
+                        'otto-light-dark': '#6B7280', // NUEVO: Gris plateado medio (Tailwind gray-500)
+                        'otto-silver': '#F3F4F6', // Gris muy claro para fondos (Tailwind gray-100)
+                        'otto-medium-silver': '#E5E7EB', // Gris medio claro (Tailwind gray-200)
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'], // Fuente moderna y legible
+                        heading: ['Montserrat', 'sans-serif'], // Fuente para títulos, más impactante
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%, 100%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                        },
+                        fadeIn: {
+                            'from': { opacity: 0 },
+                            'to': { opacity: 1 },
+                        },
+                        scaleIn: {
+                            'from': { opacity: 0, transform: 'scale(0.95)' },
+                            'to': { opacity: 1, transform: 'scale(1)' },
+                        }
+                    },
+                    animation: {
+                        blob: 'blob 7s infinite cubic-bezier(0.68, -0.55, 0.27, 1.55)',
+                        fadeIn: 'fadeIn 0.3s ease-out',
+                        scaleIn: 'scaleIn 0.3s ease-out',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Estilos personalizados para el scroll suave y la tipografía */
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9FAFB; /* Fondo general muy claro */
+            color: #4B5563; /* Color de texto por defecto ahora es otto-dark (gray-600) */
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+        }
+        /* Estilo para el fondo del hero con un degradado fuerte para mejor contraste */
+        #hero {
+            /* URL de imagen de fondo de alta resolución para un look premium */
+            /* Usamos los nuevos colores otto-dark y otto-light-dark más plateados */
+            background: linear-gradient(135deg, rgba(75, 85, 99, 0.95) 0%, rgba(107, 114, 128, 0.85) 70%, rgba(249, 115, 22, 0.5) 100%), url('https://images.unsplash.com/photo-1517730605929-e85df649f8b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%D&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: multiply;
+            min-height: 85vh; /* Un poco más alto */
+        }
+        /* Animación para botones */
+        .btn-primary {
+            transition: all 0.3s ease-in-out;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(249, 115, 22, 0.5); /* Sombra más intensa */
+        }
+        
+        /* Animación para tarjetas de producto (versión click simple) */
+        .product-card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            cursor: pointer; /* Añadido para indicar que es clicable */
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.1), 0 6px 15px -3px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Estilo para la nueva tarjeta interactiva */
+        .product-card-interactive {
+            transition: box-shadow 0.2s ease-in-out;
+        }
+        .product-card-interactive:hover {
+            box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.1), 0 6px 15px -3px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Icono de menú hamburguesa */
+        .menu-icon {
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 2rem;
+            height: 1.5rem;
+            transition: all 0.3s linear;
+        }
+        .menu-icon div {
+            width: 2rem;
+            height: 0.2rem;
+            background-color: white;
+            border-radius: 10px;
+            transform-origin: 1px;
+            transition: all 0.3s linear;
+        }
+        .menu-icon.open .bar1 {
+            transform: rotate(45deg);
+        }
+        .menu-icon.open .bar2 {
+            opacity: 0;
+            transform: translateX(20px);
+        }
+        .menu-icon.open .bar3 {
+            transform: rotate(-45deg);
+        }
+        /* Estilos de animación */
+        .animate-fade-in-down { animation: fadeInDown 1s ease-out forwards; }
+        .animate-fade-in-up { animation: fadeInUp 1s ease-out forwards; }
+        .animate-scale-in { animation: scaleIn 0.8s ease-out forwards; }
+        .animation-delay-2000 { animation-delay: 2s; }
+
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+
+        /* Estilos para el input de cantidad */
+        .quantity-input input[type="number"] {
+            -moz-appearance: textfield;
+            appearance: textfield;
+        }
+        .quantity-input input[type="number"]::-webkit-inner-spin-button,
+        .quantity-input input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        /* Estilos para el slider de rango */
+        input[type="range"].medida-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 8px;
+            background: #E5E7EB; /* otto-medium-silver */
+            border-radius: 5px;
+            outline: none;
+            opacity: 0.7;
+            transition: opacity .2s;
+        }
+        input[type="range"].medida-slider:hover {
+            opacity: 1;
+        }
+        input[type="range"].medida-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #F97316; /* otto-orange */
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        }
+        input[type="range"].medida-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: #F97316; /* otto-orange */
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        }
+    </style>
+    
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet">
+</head>
+
+<body class="bg-gray-50 text-otto-dark"> <header class="bg-otto-dark shadow-xl sticky top-0 z-50"> <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            
+
+<a href="#inicio" class="text-3xl md:text-4xl font-extrabold text-otto-orange flex items-center group">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9 md:h-10 md:w-10 mr-2 text-otto-orange group-hover:rotate-12 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                </svg>
+                <span class="text-white font-heading">Aluminios</span> <span class="text-otto-orange font-heading">OTTO</span>
+            </a>
+
+            
+
+<div class="hidden md:flex space-x-8 lg:space-x-12 items-center">
+                <a href="#inicio" class="text-white text-lg font-semibold hover:text-otto-orange transition duration-300 relative group">
+                    Inicio
+                    <span class="absolute left-0 bottom-0 w-full h-0.5 bg-otto-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
+                </a>
+                <a href="#productos" class="text-white text-lg font-semibold hover:text-otto-orange transition duration-300 relative group">
+                    Productos
+                    <span class="absolute left-0 bottom-0 w-full h-0.5 bg-otto-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
+                </a>
+                <a href="#servicios" class="text-white text-lg font-semibold hover:text-otto-orange transition duration-300 relative group">
+                    Servicios
+                    <span class="absolute left-0 bottom-0 w-full h-0.5 bg-otto-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
+                </a>
+                <a href="#contacto" class="text-white text-lg font-semibold hover:text-otto-orange transition duration-300 relative group">
+                    Contacto
+                    <span class="absolute left-0 bottom-0 w-full h-0.5 bg-otto-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
+                </a>
+                
+                
+<a href="#cotizacion" class="relative text-white p-2 rounded-full hover:bg-otto-light-dark transition-colors" aria-label="Ver cotización"> <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002-2h2a2 2 0 002 2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                    </svg>
+                     <span id="cotizacion-badge" class="absolute -top-1 -right-1 bg-otto-orange text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center ring-2 ring-otto-dark">0</span>
+                </a>
+
+                <a href="#contacto" class="px-6 py-2 bg-otto-orange text-white text-lg font-bold rounded-full shadow-lg hover:bg-orange-600 btn-primary">
+                    Cotiza Ahora
+                </a>
+            </div>
+
+            
+
+<button id="menu-toggle" class="md:hidden menu-icon focus:outline-none" aria-label="Toggle Menu">
+                <div class="bar1"></div>
+                <div class="bar2"></div>
+                <div class="bar3"></div>
+            </button>
+        </nav>
+
+        
+
+<div id="mobile-menu" class="hidden md:hidden bg-otto-light-dark absolute w-full z-40 shadow-xl transition-all duration-300 ease-in-out transform -translate-y-2 opacity-0"> <div class="flex flex-col p-4 space-y-3">
+                <a href="#inicio" class="text-white text-lg hover:text-otto-orange transition duration-300 py-2 border-b border-gray-700" onclick="closeMenu()">Inicio</a>
+                <a href="#productos" class="text-white text-lg hover:text-otto-orange transition duration-300 py-2 border-b border-gray-700" onclick="closeMenu()">Productos</a>
+                <a href="#servicios" class="text-white text-lg hover:text-otto-orange transition duration-300 py-2 border-b border-gray-700" onclick="closeMenu()">Servicios</a>
+                <a href="#contacto" class="text-white text-lg hover:text-otto-orange transition duration-300 py-2" onclick="closeMenu()">Contacto</a>
+                <a href="#contacto" class="mt-4 px-4 py-2 bg-otto-orange text-center text-white text-lg font-bold rounded-full hover:bg-orange-600 transition duration-300" onclick="closeMenu()">
+                    ¡Cotiza Ahora!
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        
+
+<section id="inicio" class="relative flex items-center justify-center text-center p-6 sm:p-8" id="hero">
+             <div class="max-w-4xl mx-auto z-10 py-20 md:py-32">
+                <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold font-heading otto-dark mb-6 leading-tight drop-shadow-lg animate-fade-in-down">
+                    <span class="text-otto-orange">Aluminios OTTO</span> Innovación y Durabilidad en Cada Diseño.
+                </h1>
+                <p class="text-xl sm:text-2xl lg:text-3xl otto-dark mb-10 font-light drop-shadow animate-fade-in-up delay-200">
+                    Tu socio estratégico en soluciones de aluminio para arquitectura y construcción moderna.
+                </p>
+                <a href="#productos" class="inline-block px-10 py-4 md:px-14 md:py-5 bg-otto-orange text-white text-xl md:text-2xl font-bold rounded-full shadow-xl hover:bg-orange-600 btn-primary animate-scale-in delay-400">
+                    Explora Nuestros Productos
+                </a>
+            </div>
+        </section>
+
+        
+
+<section class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2">
+                     <h2 class="text-4xl lg:text-5xl font-bold font-heading text-otto-dark mb-6 leading-tight">
+                        Más de 20 años de <span class="text-otto-orange">Excelencia</span> en Aluminio.
+                    </h2>
+                    <p class="text-lg text-gray-700 mb-6"> En Aluminios OTTO, somos líderes en la distribución y comercialización de perfilería de aluminio de la más alta calidad en Colombia. Nos comprometemos a ofrecer soluciones innovadoras y duraderas para todo tipo de proyectos arquitectónicos.
+                    </D>
+                    <p class="text-lg text-gray-700 mb-8"> Desde sistemas para puertas y ventanas hasta fachadas flotantes y divisiones de oficina, nuestra experiencia garantiza el éxito y la estética de tus construcciones.
+                    </p>
+                    <a href="#contacto" class="inline-block px-8 py-3 bg-otto-dark text-white font-semibold rounded-lg hover:bg-otto-light-dark transition duration-300">
+                        Conoce más sobre nosotros
+                    </a>
+                </div>
+                <div class="md:w-1/2 relative">
+                    <img src="https://images.unsplash.com/photo-1542838183-5a022485303c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%D&auto=format&fit=crop&w=1974&q=80" alt="Aluminios Otto - Fábrica" class="rounded-2xl shadow-2xl w-full h-auto object-cover max-h-[450px]">
+                    <div class="absolute -bottom-4 -left-4 w-32 h-32 bg-otto-orange rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+                     <div class="absolute -top-4 -right-4 w-32 h-32 bg-gray-400 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+                </div>
+            </div>
+        </section>
+
+
+        
+
+<section id="productos" class="py-16 md:py-24 bg-otto-silver">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                 <h2 class="text-4xl lg:text-5xl font-bold font-heading text-center text-otto-dark mb-8">
+                    Nuestro Catálogo de <span class="text-otto-orange">Soluciones</span>
+                </h2>
+                <p class="text-center text-lg text-gray-700 mb-16 max-w-4xl mx-auto"> Explora nuestra variada oferta de perfiles y sistemas de aluminio, diseñados para cumplir con los más altos estándares de calidad y funcionalidad en tus proyectos.
+                </p>
+
+                <div id="product-list" class="space-y-20">
+                    <script>
+                        function getProfileIcon(color, size) {
+                            return `<svg xmlns="http://www.w3.org/2000/svg" class="h-${size} w-${size} ${color}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 17V5a2 2 0 012-2h12a2 2 0 012 2v12m-4 0v4m0-4h-4m-4 0h-4m12 0H8m-4 0h4m4 0v4m0-4h4m0 4v-4m-4-8h.01M16 12h.01M16 8h.01M8 8h.01M8 12h.01M12 16h.01"/>
+                            </svg>`;
+                        }
+                    </script>
+
+                    
+<div class="category-block bg-white p-8 md:p-12 rounded-3xl shadow-lg">
+                        <h3 class="text-3xl font-bold font-heading text-otto-dark border-l-4 border-otto-orange pl-4 mb-8">1. Perfilería General y Barras</h3>
+                        
+                        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-8">
+                            
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group"
+                                    onclick="openCategoryModal('Perfilería en Aluminio')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                     <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                 <p class="text-base font-semibold text-otto-dark">Perfilería en Aluminio</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group"
+                                    onclick="openCategoryModal('Ángulos de lados iguales')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Ángulos de lados iguales</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group"
+                                    onclick="openCategoryModal('Platinas')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Platinas</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group"
+                                    onclick="openCategoryModal('Barras y Alambrón')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Barras y Alambrón</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group"
+                                    onclick="openCategoryModal('Ornamentación')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Ornamentación</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group"
+                                    onclick="openCategoryModal('Perfiles Varios')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Perfiles Varios</p>
+                            </button>
+                            
+                        </div>
+                    </div>
+
+                    
+<div class="category-block bg-white p-8 md:p-12 rounded-3xl shadow-lg">
+                        <h3 class="text-3xl font-bold font-heading text-otto-dark border-l-4 border-otto-orange pl-4 mb-8">2. Tubulares y Marcos</h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-8">
+                            
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Tubos Circulares')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Tubos Circulares</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Tubulares Cuadrados')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Tubulares Cuadrados</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Tubulares Rectangulares')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Tubulares Rectangulares</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Tubulares Con Aleta')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Tubulares Con Aleta</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Tubulares Con Doble Aleta')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Tubulares Con Doble Aleta</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Tubulares Para Puertas')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Tubulares Para Puertas</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Tubulares Con Aleta Lateral')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Tubulares Con Aleta Lateral</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Tubulares Con Doble Aleta Lateral')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Tubulares Con Doble Aleta Lateral</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Tubulares Para Marquesina')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Tubulares Para Marquesina</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Marcos')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Marcos</p>
+                            </button>
+                        </div>
+                    </div>
+
+                    
+
+<div class="category-block bg-white p-8 md:p-12 rounded-3xl shadow-lg">
+                        <h3 class="text-3xl font-bold font-heading text-otto-dark border-l-4 border-otto-orange pl-4 mb-8">3. Sistemas para Puertas</h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-8">
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Puerta Batiente PB-6038')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Puerta Batiente PB-6038</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Puerta Batiente Sideral 2.4')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Puerta Batiente Sideral 2.4</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Puerta Corrediza 7038')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Puerta Corrediza 7038</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Puerta Corrediza Colosal 2.6')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Puerta Corrediza Colosal 2.6</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Puerta Corrediza Satelital 2.6')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Puerta Corrediza Satelital 2.6</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Venta Corrediza Astral 1.6-1.8-2.0')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Venta Corrediza Astral 1.6-1.8-2.0</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Puerta Corrediza PC-744')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Puerta Corrediza PC-744</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Puerta Corrediza PC-8025')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Puerta Corrediza PC-8025</p>
+                            </button>
+                        </div>
+                    </div>
+
+                    
+
+<div class="category-block bg-white p-8 md:p-12 rounded-3xl shadow-lg">
+                        <h3 class="text-3xl font-bold font-heading text-otto-dark border-l-4 border-otto-orange pl-4 mb-8">4. Sistemas para Ventanas y Divisiones</h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-8">
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Ventana Batiente Boreal 1.8')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Ventana Batiente Boreal 1.8</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Ventana Proyectante VP-3831')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Ventana Proyectante VP-3831</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Ventana Corrediza VC-5020')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Ventana Corrediza VC-5020</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Ventana Corrediza VC-526')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Ventana Corrediza VC-526</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Ventana Corrediza VC-3825')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Ventana Corrediza VC-3825</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Divisiones de Oficina')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Divisiones de Oficina</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Particiones Modulares')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Particiones Modulares</p>
+                            </button>
+                        </div>
+                    </div>
+
+                    
+
+<div class="category-block bg-white p-8 md:p-12 rounded-3xl shadow-lg">
+                        <h3 class="text-3xl font-bold font-heading text-otto-dark border-l-4 border-otto-orange pl-4 mb-8">5. Sistemas Comerciales y Especiales</h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-8">
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Vitrinas Comerciales 5025')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Vitrinas Comerciales 5025</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Vitrinas Comerciales 7638')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Vitrinas Comerciales 7638</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Cabinas de Baño Corredizas 4215')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Cabinas de Baño Corredizas 4215</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Cielorrasos')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Cielorrasos</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Fachada Flotante')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Fachada Flotante</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Persianas')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Persianas</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Furgón')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Furgón</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Ductos y Tapas')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Ductos y Tapas</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Pasamanos')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Pasamanos</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Canal Con Aleta / Sencilla')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Canal Con Aleta / Sencilla</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Rieles')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Rieles</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Cortineros')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Cortineros</p>
+                            </button>
+                            <button class="product-card bg-otto-medium-silver p-5 rounded-xl shadow-md text-center flex flex-col items-center justify-center transform hover:scale-105 group" onclick="openCategoryModal('Alfajías')">
+                                <div class="p-3 mb-3 rounded-full bg-white group-hover:bg-otto-orange transition duration-300 shadow-md ring-2 ring-gray-300 group-hover:ring-white" style="width: 56px; height: 56px;">
+                                    <script>document.write(getProfileIcon('text-otto-dark group-hover:text-white', 8))</script>
+                                </div>
+                                <p class="text-base font-semibold text-otto-dark">Alfajías</p>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        
+
+<section id="servicios" class="py-16 md:py-24 bg-otto-light-dark text-white"> <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-4xl lg:text-5xl font-bold font-heading text-otto-orange mb-12">Nuestros Servicios <span class="text-white">Complementarios</span></h2>
+                <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                     <div class="p-8 bg-otto-dark rounded-2xl shadow-xl hover:bg-gray-700 transition duration-300 transform hover:scale-105 border-b-4 border-otto-orange">
+                        <div class="w-16 h-16 mx-auto mb-6 flex items-center justify-center bg-otto-orange/20 rounded-full ring-4 ring-otto-orange/50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-otto-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 17H5a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2h-3m-1 4a1 1 0 11-2 0 1 1 0 012 0zm-7 0a1 1 0 11-2 0 1 1 0 012 0zm7-11V5h-6v4m6 0h2" />
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-semibold font-heading mb-3 text-white">Transporte Eficiente</h3>
+                        <p class="text-gray-300">Garantizamos la entrega segura y puntual de tus pedidos a cualquier destino, con nuestra flota logística especializada.</p> </div>
+                    <div class="p-8 bg-otto-dark rounded-2xl shadow-xl hover:bg-gray-700 transition duration-300 transform hover:scale-105 border-b-4 border-otto-orange">
+                        <div class="w-16 h-16 mx-auto mb-6 flex items-center justify-center bg-otto-orange/20 rounded-full ring-4 ring-otto-orange/50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-otto-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16 13l-4 4-4-4m4-4v8" />
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-semibold font-heading mb-3 text-white">Corte y Laminado a Medida</h3>
+                        <p class="text-gray-300">Servicios de corte, doblado y laminado de perfiles de aluminio para adaptarnos a las especificaciones exactas de tu proyecto.</p>
+                    </div>
+                    <div class="p-8 bg-otto-dark rounded-2xl shadow-xl hover:bg-gray-700 transition duration-300 transform hover:scale-105 border-b-4 border-otto-orange">
+                        <div class="w-16 h-16 mx-auto mb-6 flex items-center justify-center bg-otto-orange/20 rounded-full ring-4 ring-otto-orange/50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-otto-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-semibold font-heading mb-3 text-white">Asesoría Profesional</h3>
+                        <p class="text-gray-300">Nuestro equipo de expertos te guiará en la elección de los materiales y soluciones ideales para optimizar tu proyecto.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+
+<section class="bg-otto-orange py-16 md:py-20 text-white text-center">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-4xl md:text-5xl font-extrabold font-heading mb-6 drop-shadow">
+                    ¿Listo para tu Próximo Proyecto?
+                </h2>
+                <p class="text-xl md:text-2xl mb-10 font-light max-w-3xl mx-auto drop-shadow-sm">
+                    En Aluminios OTTO, transformamos tus ideas en realidad con la fuerza y elegancia del aluminio.
+                </p>
+                 <a href="#contacto" class="inline-block px-10 py-4 bg-otto-dark text-white text-xl font-bold rounded-full shadow-lg hover:bg-otto-light-dark btn-primary">
+                    ¡Hablemos de tu Proyecto!
+                </a>
+            </div>
+        </section>
+
+        
+
+<section id="contacto" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-12 items-center">
+                
+<div>
+                    <h2 class="text-4xl lg:text-5xl font-bold font-heading text-otto-dark mb-6">
+                        Conéctate con <span class="text-otto-orange">Aluminios OTTO</span>
+                    </h2>
+                    <p class="text-lg text-gray-700 mb-8">
+                        Estamos aquí para ayudarte. Ponte en contacto con nosotros para cualquier consulta, solicitud de cotización o asesoramiento técnico.
+                    </p>
+
+                    <div class="space-y-6 text-lg">
+                        <p class="flex items-center text-otto-dark font-semibold">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-4 text-otto-orange flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                            </svg>
+                            <span class="hover:text-otto-orange transition-colors duration-300">+57 (1) 123 4567</span>
+                        </p>
+                        <p class="flex items-center text-otto-dark font-semibold">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-4 text-otto-orange flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-2 4v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                            </svg>
+                            <span class="hover:text-otto-orange transition-colors duration-300">contacto@aluminiosotto.com</span>
+                        </p>
+                        <p class="flex items-center text-otto-dark font-semibold">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-4 text-otto-orange flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <span class="hover:text-otto-orange transition-colors duration-300">Cra. 68 #12-50, Bogotá, Colombia</span>
+                        </p>
+                    </div>
+                </div>
+
+                
+
+<div class="bg-otto-silver p-8 md:p-10 rounded-2xl shadow-2xl border border-gray-200">
+                    <form id="contact-form" class="space-y-5">
+                        <input type="text" placeholder="Tu Nombre Completo" required class="w-full p-4 rounded-lg border-2 border-gray-300 bg-white focus:ring-otto-orange focus:border-otto-orange transition duration-200 text-lg">
+                        <input type="email" placeholder="Tu Correo Electrónico" required class="w-full p-4 rounded-lg border-2 border-gray-300 bg-white focus:ring-otto-orange focus:border-otto-orange transition duration-200 text-lg">
+                        <input type="text" placeholder="Asunto (ej: Cotización de Perfiles)" class="w-full p-4 rounded-lg border-2 border-gray-300 bg-white focus:ring-otto-orange focus:border-otto-orange transition duration-200 text-lg">
+                        <textarea placeholder="Cuéntanos sobre tu proyecto o consulta..." rows="6" required class="w-full p-4 rounded-lg border-2 border-gray-300 bg-white focus:ring-otto-orange focus:border-otto-orange transition duration-200 text-lg"></textarea>
+                        <button type="submit" class="w-full py-4 bg-otto-orange text-white text-xl font-bold rounded-xl shadow-lg hover:bg-orange-600 btn-primary">
+                            Enviar Mensaje
+                        </button>
+                    </form>
+                    <div id="message-box" class="mt-6 p-4 rounded-lg text-center hidden font-medium"></div>
+                </div>
+            </div>
+        </section>
+
+        
+        
+<div id="product-modal" class="hidden fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black bg-opacity-75 transition-opacity duration-300 animate-fadeIn" onclick="closeModal()">
+            
+<div id="modal-content-box" class="relative bg-white w-full max-w-4xl max-h-[90vh] rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row animate-scaleIn" onclick="event.stopPropagation()">
+                
+                <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-otto-orange z-10" aria-label="Cerrar modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+
+                
+                <div class="md:w-1/2 bg-gray-200">
+                    <img id="modal-img" src="https://placehold.co/600x400/F97316/FFFFFF?text=Producto" alt="Imagen del Producto" class="w-full h-64 md:h-full object-cover">
+                </div>
+
+                
+                <div class="md:w-1/2 p-8 md:p-10 flex flex-col overflow-y-auto">
+                     <h3 id="modal-title" class="text-3xl lg:text-4xl font-bold font-heading text-otto-dark mb-4">
+                        Nombre del Producto
+                    </h3>
+                    
+                    <div class="border-t border-gray-200 pt-6">
+                        <h4 class="text-xl font-semibold text-otto-orange mb-3">Especificaciones Clave</h4>
+                        <ul id="modal-sizes-list" class="list-disc list-inside space-y-2 text-gray-700 text-lg">
+                            <li>Tamaño de ejemplo 1</li>
+                            <li>Tamaño de ejemplo 2</li>
+                        </ul>
+                        <p class="mt-4 text-gray-600">Para una ficha técnica detallada y todos los acabados disponibles, por favor contacta a un asesor.</p>
+                    </div>
+
+                    <div class="mt-auto pt-6">
+                        <a href="#contacto" onclick="closeModal()" class="w-full text-center block px-6 py-3 bg-otto-orange text-white text-lg font-bold rounded-lg shadow-lg hover:bg-orange-600 btn-primary">
+                            Cotizar este Producto
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        
+<div id="category-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8 bg-black bg-opacity-75 transition-opacity duration-300 animate-fadeIn" onclick="closeCategoryModal()">
+            
+<div class="relative bg-otto-silver w-full max-w-6xl max-h-[90vh] rounded-2xl shadow-2xl overflow-hidden flex flex-col animate-scaleIn" onclick="event.stopPropagation()">
+                
+                <div class="flex items-center justify-between p-6 border-b border-gray-300 bg-white rounded-t-2xl">
+                     <h3 id="category-modal-title" class="text-3xl lg:text-4xl font-bold font-heading text-otto-dark">
+                        Nombre de la Categoría
+                    </h3>
+                    <button onclick="closeCategoryModal()" class="text-gray-400 hover:text-otto-orange z-10" aria-label="Cerrar modal">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                
+                <div id="category-modal-grid" class="p-6 sm:p-8 overflow-y-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <p class="text-gray-600">Cargando productos...</p>
+                </div>
+            </div>
+        </div>
+
+
+    </main>
+
+    
+
+<footer class="bg-otto-dark py-10"> <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-400"> <div class="mb-6 flex justify-center space-x-8">
+                
+<a href="https://www.facebook.com/groups/495654765639023/?locale=es_LA" target="_blank" class="text-white hover:text-otto-orange transition duration-300 transform hover:scale-110" aria-label="Facebook de Aluminios OTTO">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C6.477 2 2 6.477 2 12c0 5.016 3.65 9.18 8.438 9.878v-7.05h-2.54V12h2.54V9.797c0-2.515 1.536-3.89 3.774-3.89 1.074 0 2.002.198 2.27.287v2.668h-1.583c-1.248 0-1.487.594-1.487 1.464V12h3.04l-.49 3.23h-2.55V21.878C18.35 21.18 22 17.016 22 12c0-5.523-4.477-10-10-10z"/>
+                    </svg>
+                </a>
+                
+<a href="#" class="text-white hover:text-otto-orange transition duration-300 transform hover:scale-110" aria-label="Instagram de Aluminios OTTO">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.071 1.17.06 1.743.231 2.224.402.479.172.884.408 1.25.774.366.366.602.771.774 1.25.17.481.341 1.054.402 2.224.06 1.266.071 1.646.071 4.85s-.012 3.584-.071 4.85c-.06 1.17-.231 1.743-.402 2.224-.172.479-.408.884-.774 1.25-.366.366-.771.602-1.25.774-.481.17-1.054.341-2.224.402-1.266.06-1.646.071-4.85.071s-3.584-.012-4.85-.071c-1.17-.06-1.743-.231-2.224-.402-.479-.172-.884-.408-1.25-.774-.366.366-.602.771-.774-1.25-.17-.481-.341 1.054-.402-2.224-.06-1.266-.071-1.646-.071 4.85s.012-3.584.071-4.85c.06-1.17.231-1.743.402-2.224.172-.479.408.884.774-1.25.366.366.771.602 1.25-.774.481-.17 1.054.341 2.224.402 1.266-.06 1.646-.071 4.85-.071zm0-2.163c-3.259 0-3.667.014-4.945.072-1.378.067-2.366.29-3.203.626-.838.337-1.554.795-2.261 1.502-.707.707-1.173 1.423-1.502 2.261-.336.837-.559 1.825-.626 3.203-.058 1.278-.072 1.687-.072 4.945s.014 3.667.072 4.945c.067 1.378.29 2.366.626 3.203.337.838.795 1.554 1.502 2.261.707.707 1.423 1.173 2.261 1.502.837.336 1.825.559 3.203.626 1.278.058 1.687.072 4.945.072s3.667-.014 4.945-.072c1.378-.067 2.366-.29 3.203-.626.838-.337 1.554.795 2.261-1.502.707-.707 1.423-1.173 1.502-2.261.336-.837-.559-1.825.626-3.203.058-1.278.072-1.687-.072-4.945s-.014-3.667-.072-4.945c-.067-1.378-.29-2.366-.626-3.203-.337-.838-.795-1.554-1.502-2.261-.707-.707-1.423-1.173-2.261-1.502-.837-.336-1.825-.559-3.203-.626-1.278-.058-1.687-.072-4.945-.072zm0 5.838c-3.41 0-6.175 2.766-6.175 6.175s2.766 6.175 6.175 6.175 6.175-2.766 6.175-6.175-2.766-6.175-6.175-6.175zm0 10.163c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4zm6.471-11.455c0 1.236-.999 2.235-2.235 2.235s-2.235-.999-2.235-2.235c0-1.236.999-2.235 2.235-2.235s2.235.999 2.235 2.235z"/>
+                    </svg>
+                </a>
+            </div>
+            <p class="text-base">&copy; 2024 Aluminios OTTO. Todos los derechos reservados.</p>
+            <p class="mt-2 text-sm text-gray-500">Transformando ideas con la resistencia y belleza del aluminio.</p>
+        </div>
+    </footer>
+
+    
+
+<script>
+        // --- LÓGICA DE COTIZACIÓN (NUEVO) ---
+        let cotizacion = []; // Array para guardar los productos
+        const cotizacionBadge = document.getElementById('cotizacion-badge');
+        const messageBox = document.getElementById('message-box'); // Ya existía del formulario
+
+        /**
+         * Actualiza el contador de la cotización en el header.
+         */
+        function actualizarBadgeCotizacion() {
+            if (cotizacionBadge) {
+                cotizacionBadge.textContent = cotizacion.length;
+                // Añadir una pequeña animación de "pop"
+                cotizacionBadge.classList.add('animate-scale-in');
+                setTimeout(() => {
+                    cotizacionBadge.classList.remove('animate-scale-in');
+                }, 300);
+            }
+        }
+
+        /**
+         * Controla los botones de + y - del selector de cantidad.
+         * @param {HTMLElement} buttonElement - El botón (+ o -) que se presionó.
+         * @param {number} delta - El cambio a aplicar (1 o -1).
+         */
+        function cambiarCantidad(buttonElement, delta) {
+            const input = buttonElement.parentElement.querySelector('.cantidad-input');
+            if (input) {
+                let valorActual = parseInt(input.value, 10);
+                if (isNaN(valorActual)) valorActual = 1;
+                
+                let nuevoValor = valorActual + delta;
+                if (nuevoValor < 1) nuevoValor = 1; // No permitir menos de 1
+                
+                input.value = nuevoValor;
+            }
+        }
+
+        /**
+         * Añade un producto a la lista de cotización.
+         * @param {HTMLElement} buttonElement - El botón "Añadir a cotización" presionado.
+         */
+        function agregarACotizacion(buttonElement) {
+            const card = buttonElement.closest('.product-card-interactive');
+            if (!card) return;
+
+            // Encontrar los elementos dentro de la tarjeta
+            const id = card.dataset.productId;
+            const nombre = card.dataset.productName;
+            const acabadoSelect = card.querySelector('.acabado-select');
+            const medidaSlider = card.querySelector('.medida-slider'); // CAMBIADO a slider
+            const cantidadInput = card.querySelector('.cantidad-input');
+
+            // Extraer los valores
+            const producto = {
+                id: id,
+                nombre: nombre,
+                acabado: acabadoSelect ? acabadoSelect.value : 'N/A',
+                medida: medidaSlider ? `${medidaSlider.value} m` : 'N/A', // CAMBIADO
+                cantidad: cantidadInput ? parseInt(cantidadInput.value, 10) : 1
+            };
+
+            // Añadir al array de cotización
+            cotizacion.push(producto);
+            actualizarBadgeCotizacion();
+
+            // Opcional: Mostrar una confirmación al usuario
+            console.log("Cotización actualizada:", cotizacion);
+            
+            // Reutilizar el messageBox del formulario para mostrar un éxito
+            if (messageBox) {
+                messageBox.textContent = `"${producto.nombre}" (${producto.medida}) añadido a la cotización.`;
+                messageBox.classList.remove('hidden', 'bg-red-100', 'text-red-800');
+                messageBox.classList.add('bg-green-100', 'text-green-800');
+                
+                // Mover el messageBox cerca del header o hacerlo un toast (más complejo)
+                // Por ahora, solo lo mostramos en la sección de contacto
+                const contactoSeccion = document.getElementById('contacto');
+                if (contactoSeccion) {
+                    // No hacer scroll, es molesto. Solo mostrar el mensaje.
+                    // contactoSeccion.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+
+                // Ocultar el mensaje después de 3 segundos
+                setTimeout(() => {
+                    if (messageBox.textContent === `"${producto.nombre}" (${producto.medida}) añadido a la cotización.`) {
+                         messageBox.classList.add('hidden');
+                    }
+                }, 3000);
+            }
+            
+            // Resetear cantidad a 1
+            if (cantidadInput) cantidadInput.value = 1;
+            // Resetear slider a 6m
+            if (medidaSlider) {
+                 medidaSlider.value = 6.0;
+                 updateSliderValue(medidaSlider);
+            }
+        }
+
+        // --- FIN LÓGICA DE COTIZACIÓN ---
+
+
+        // Lógica para el menú hamburguesa
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('hidden');
+            menuToggle.classList.toggle('open');
+            // Animaciones del menú móvil
+            if (!mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.remove('opacity-0', '-translate-y-2');
+                mobileMenu.classList.add('opacity-100', 'translate-y-0');
+            } else {
+                mobileMenu.classList.add('opacity-0', '-translate-y-2');
+                mobileMenu.classList.remove('opacity-100', 'translate-y-0');
+            }
+        }
+
+        function closeMenu() {
+            mobileMenu.classList.add('hidden', 'opacity-0', '-translate-y-2');
+            mobileMenu.classList.remove('opacity-100', 'translate-y-0');
+            menuToggle.classList.remove('open');
+        }
+
+        if(menuToggle) {
+            menuToggle.addEventListener('click', toggleMenu);
+        }
+
+        // Cerrar menú móvil al hacer clic fuera (opcional, si el menú es overlay)
+        document.addEventListener('click', function(event) {
+            if (menuToggle && mobileMenu && !menuToggle.contains(event.target) && !mobileMenu.contains(event.target) && !mobileMenu.classList.contains('hidden')) {
+                closeMenu();
+            }
+        });
+
+
+        // Lógica para el formulario (simulado, ya que no hay backend)
+        const contactForm = document.getElementById('contact-form');
+        // const messageBox = document.getElementById('message-box'); // Declarado arriba
+
+        if(contactForm) {
+            contactForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Evita el envío real del formulario
+
+                // Simula el envío exitoso
+                messageBox.textContent = "¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.";
+                messageBox.classList.remove('hidden');
+                messageBox.classList.add('bg-green-100', 'text-green-800');
+                messageBox.classList.remove('bg-red-100', 'text-red-800'); // Limpiar clases de error
+                contactForm.reset();
+
+                // Ocultar el mensaje después de 5 segundos
+                setTimeout(() => {
+                    if (messageBox.textContent === "¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.") {
+                        messageBox.classList.add('hidden');
+                    }
+                }, 5000);
+            });
+        }
+
+        // --- LÓGICA DEL MODAL DE DETALLE DE PRODUCTO (el segundo modal) ---
+
+        const productModal = document.getElementById('product-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalImg = document.getElementById('modal-img');
+        const modalSizesList = document.getElementById('modal-sizes-list');
+
+        /**
+         * Abre el modal de DETALLE y lo rellena con la información.
+         * @param {HTMLElement} element - El elemento <button> del producto en el que se hizo clic.
+         */
+        function openModal(element) {
+            if (!element || !productModal || !modalTitle || !modalImg || !modalSizesList) return;
+
+            // 1. Extraer los datos del producto desde los atributos data-*
+            const title = element.dataset.title || "Producto no encontrado";
+            const imgUrl = element.dataset.img || "https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Producto";
+            const sizesJson = element.dataset.sizes || "[]";
+
+            // 2. Parsear los tamaños
+            let sizes = [];
+            try {
+                sizes = JSON.parse(sizesJson);
+            } catch (e) {
+                console.error("Error al parsear data-sizes:", e);
+                sizes = ["Error al cargar tamaños."];
+            }
+
+            // 3. Rellenar el modal con los datos
+            modalTitle.textContent = title;
+            modalImg.src = imgUrl;
+            modalImg.alt = "Imagen de " + title; 
+
+            // 4. Limpiar y rellenar lista
+            modalSizesList.innerHTML = ""; // Limpiar
+            if (sizes.length > 0) {
+                sizes.forEach(size => {
+                    const li = document.createElement('li');
+                    li.textContent = size;
+                    li.className = "text-gray-700 text-lg";
+                    modalSizesList.appendChild(li);
+                });
+            } else {
+                const li = document.createElement('li');
+                li.textContent = "No hay especificaciones disponibles.";
+                li.className = "text-gray-500 text-lg italic";
+                modalSizesList.appendChild(li);
+            }
+            
+            // 5. Mostrar el modal
+            productModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        /**
+         * Cierra el modal de DETALLE.
+         */
+        function closeModal() {
+            if (productModal) {
+                productModal.classList.add('hidden');
+                // Solo restaura el scroll si el modal de categoría NO está abierto
+                if (categoryModal.classList.contains('hidden')) {
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        }
+
+        // --- FIN LÓGICA MODAL DETALLE ---
+
+        // --- INICIO LÓGICA MODAL DE CATEGORÍA (NUEVO) ---
+
+        // Base de datos de productos (en un futuro esto vendría de un servidor)
+        const productData = {
+            // --- Categoría 1: Perfilería General ---
+            'Perfilería en Aluminio': [
+                { id: 'PV001', name: 'Perfil Vario 1', desc: 'Perfil Vario 1 (Tubo)', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=PV001', acabados: ['Crudo', 'Natural'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+PV001', detailSpecs: '["Detalle A", "Detalle B"]' }
+            ],
+            
+            // --- IMÁGENES MODIFICADAS AQUÍ ---
+            'Ángulos de lados iguales': [
+                { 
+                    id: 'PA002', 
+                    name: 'Ángulo 1/2" x 1/8"',
+                    desc: 'ANG, 1/2" x 1/8"',
+                    diagramImg: 'http://googleusercontent.com/image_generation_content/0',
+                    acabados: ['Crudo', 'Natural', 'Blanco', 'Negro'],
+                    detailImg: 'http://googleusercontent.com/image_generation_content/0',
+                    detailSpecs: '["Acabado: Crudo", "Acabado: Natural", "Acabado: Blanco", "Medida: 6m"]'
+                },
+                { 
+                    id: 'PA006', 
+                    name: 'Ángulo 3/4" x 1/8"',
+                    desc: 'ANG, 3/4" x 1/8"',
+                    diagramImg: 'http://googleusercontent.com/image_generation_content/0',
+                    acabados: ['Crudo', 'Natural'],
+                    detailImg: 'http://googleusercontent.com/image_generation_content/0',
+                    detailSpecs: '["Acabado: Crudo", "Acabado: Natural", "Medida: 6m"]'
+                },
+                { 
+                    id: 'PA009', 
+                    name: 'Ángulo 1" x 1/16"',
+                    desc: 'ANG, 1" x 1/16"',
+                    diagramImg: 'http://googleusercontent.com/image_generation_content/0',
+                    acabados: ['Crudo', 'Blanco', 'Negro'],
+                    detailImg: 'http://googleusercontent.com/image_generation_content/0',
+                    detailSpecs: '["Acabado: Crudo", "Acabado: Blanco", "Medida: 6m"]'
+                }
+            ],
+            
+            // --- IMÁGENES MODIFICADAS AQUÍ (Usando la misma de ángulos como placeholder) ---
+            'Platinas': [
+                { 
+                    id: 'PL001', 
+                    name: 'Platina 1/2" x 1/8"',
+                    desc: 'Platina 1/2" x 1/8"',
+                    diagramImg: 'http://googleusercontent.com/image_generation_content/0',
+                    acabados: ['Crudo'],
+                    detailImg: 'http://googleusercontent.com/image_generation_content/0',
+                    detailSpecs: '["1/2&quot; x 1/8&quot;", "3/4&quot; x 1/8&quot;", "1&quot; x 1/8&quot;"]'
+                },
+                { 
+                    id: 'PL002', 
+                    name: 'Platina 1" x 1/8"',
+                    desc: 'Platina 1" x 1/8"',
+                    diagramImg: 'http://googleusercontent.com/image_generation_content/0',
+                    acabados: ['Crudo', 'Natural'],
+                    detailImg: 'http://googleusercontent.com/image_generation_content/0',
+                    detailSpecs: '["1&quot; x 1/8&quot;"]'
+                }
+            ],
+            'Barras y Alambrón': [
+                { 
+                    id: 'BA001', 
+                    name: 'Barra Redonda 1/4"',
+                    desc: 'Barra Redonda 1/4"',
+                    diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Diagrama+Barra',
+                    acabados: ['Crudo'],
+                    detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Barra',
+                    detailSpecs: '["Barra Redonda 1/4&quot;", "Barra Cuadrada 3/8&quot;", "Alambrón 5mm"]'
+                }
+            ],
+            'Ornamentación': [
+                { 
+                    id: 'OR001', 
+                    name: 'Ornamentación Diseño A',
+                    desc: 'Diseño A',
+                    diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Diagrama+Ornamentacion',
+                    acabados: ['Natural', 'Blanco'],
+                    detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Ornamentacion',
+                    detailSpecs: '["Diseño A", "Diseño B", "Diseño C"]'
+                }
+            ],
+            'Perfiles Varios': [],
+
+            // --- Categoría 2: Tubulares y Marcos ---
+            
+            // --- IMÁGENES MODIFICADAS AQUÍ ---
+            'Tubos Circulares': [
+                { 
+                    id: 'TC001', 
+                    name: 'Tubo Circular 1/2"', 
+                    desc: 'Tubo Circular 1/2"', 
+                    diagramImg: 'http://googleusercontent.com/image_generation_content/5', 
+                    acabados: ['Crudo', 'Natural'], 
+                    detailImg: 'http://googleusercontent.com/image_generation_content/5', 
+                    detailSpecs: '["1/2&quot;", "3/4&quot;"]' 
+                }
+            ],
+            'Tubulares Cuadrados': [
+                { id: 'TCU001', name: 'Tubo Cuadrado 1x1"', desc: 'Tubo Cuadrado 1x1"', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Tubo+Cuadrado', acabados: ['Crudo', 'Natural', 'Blanco'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Tubo', detailSpecs: '["1x1&quot;", "2x2&quot;"]' }
+            ],
+            'Tubulares Rectangulares': [
+                { id: 'TR001', name: 'Tubo Rectangular 2x1"', desc: 'Tubo Rectangular 2x1"', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Tubo+Rectangular', acabados: ['Crudo', 'Natural'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Tubo', detailSpecs: '["2x1&quot;"]' }
+            ],
+            'Tubulares Con Aleta': [
+                { id: 'TA001', name: 'Tubo con Aleta 1"', desc: 'Tubo con Aleta 1"', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Tubo+Aleta', acabados: ['Crudo'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Tubo', detailSpecs: '["1&quot;"]' }
+            ],
+            'Tubulares Con Doble Aleta': [
+                { id: 'TDA001', name: 'Tubo con Doble Aleta 1"', desc: 'Tubo con Doble Aleta 1"', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Tubo+Doble+Aleta', acabados: ['Crudo'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Tubo', detailSpecs: '["1&quot;"]' }
+            ],
+            'Tubulares Para Puertas': [
+                { id: 'TPP001', name: 'Tubo para Puerta', desc: 'Tubo para Puerta', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Tubo+Puerta', acabados: ['Crudo', 'Natural'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Tubo', detailSpecs: '["..."]' }
+            ],
+            'Tubulares Con Aleta Lateral': [
+                { id: 'TAL001', name: 'Tubo Aleta Lateral', desc: 'Tubo Aleta Lateral', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Tubo+Aleta+Lateral', acabados: ['Crudo'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Tubo', detailSpecs: '["..."]' }
+            ],
+            'Tubulares Con Doble Aleta Lateral': [
+                { id: 'TDAL001', name: 'Tubo Doble Aleta Lateral', desc: 'Tubo Doble Aleta Lateral', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Tubo+Doble+Aleta+Lateral', acabados: ['Crudo'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Tubo', detailSpecs: '["..."]' }
+            ],
+            'Tubulares Para Marquesina': [
+                { id: 'TPM001', name: 'Tubo Marquesina', desc: 'Tubo Marquesina', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Tubo+Marquesina', acabados: ['Crudo', 'Natural'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Tubo', detailSpecs: '["..."]' }
+            ],
+            'Marcos': [
+                { id: 'MA001', name: 'Marco Sencillo', desc: 'Marco Sencillo', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Marco', acabados: ['Crudo', 'Natural'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Marco', detailSpecs: '["..."]' }
+            ],
+
+            // --- Categoría 3: Sistemas para Puertas ---
+            'Puerta Batiente PB-6038': [
+                { id: 'PB6038-01', name: 'Juego Completo PB-6038', desc: 'Juego completo de perfiles', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Sistema+PB-6038', acabados: ['Natural', 'Blanco'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Puerta', detailSpecs: '["Juego Completo"]' }
+            ],
+            'Puerta Batiente Sideral 2.4': [
+                { id: 'PBSID-01', name: 'Juego Completo Sideral 2.4', desc: 'Juego completo de perfiles', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Sistema+Sideral', acabados: ['Natural', 'Blanco'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Puerta', detailSpecs: '["Juego Completo"]' }
+            ],
+            'Puerta Corrediza 7038': [
+                { id: 'PC7038-01', name: 'Juego Completo PC-7038', desc: 'Juego completo de perfiles', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Sistema+7038', acabados: ['Natural', 'Crudo'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Puerta', detailSpecs: '["Juego Completo"]' }
+            ],
+            'Puerta Corrediza Colosal 2.6': [
+                { id: 'PCCOL-01', name: 'Juego Completo Colosal 2.6', desc: 'Juego completo de perfiles', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Sistema+Colosal', acabados: ['Natural', 'Blanco'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Puerta', detailSpecs: '["Juego Completo"]' }
+            ],
+            'Puerta Corrediza Satelital 2.6': [
+                { id: 'PCSAT-01', name: 'Juego Completo Satelital 2.6', desc: 'Juego completo de perfiles', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Sistema+Satelital', acabados: ['Natural', 'Blanco'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Puerta', detailSpecs: '["Juego Completo"]' }
+            ],
+            'Venta Corrediza Astral 1.6-1.8-2.0': [
+                { id: 'VCASTRAL-01', name: 'Juego Completo Astral', desc: 'Juego completo de perfiles', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Sistema+Astral', acabados: ['Natural', 'Blanco'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Ventana', detailSpecs: '["Juego Completo"]' }
+            ],
+            'Puerta Corrediza PC-744': [
+                { id: 'PC744-01', name: 'Juego Completo PC-744', desc: 'Juego completo de perfiles', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Sistema+PC-744', acabados: ['Natural', 'Crudo'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Puerta', detailSpecs: '["Juego Completo"]' }
+            ],
+            'Puerta Corrediza PC-8025': [
+                { id: 'PC8025-01', name: 'Juego Completo PC-8025', desc: 'Juego completo de perfiles', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Sistema+PC-8025', acabados: ['Natural', 'Crudo'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Puerta', detailSpecs: '["Juego Completo"]' }
+            ],
+
+            // --- Categoría 4: Ventanas y Divisiones ---
+            'Ventana Batiente Boreal 1.8': [
+                { id: 'VBBOR-01', name: 'Juego Completo Boreal 1.8', desc: 'Juego completo de perfiles', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Sistema+Boreal', acabados: ['Natural', 'Blanco'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Ventana', detailSpecs: '["Juego Completo"]' }
+            ],
+            'Ventana Proyectante VP-3831': [
+                { id: 'VP3831-01', name: 'Juego Completo VP-3831', desc: 'Juego completo de perfiles', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Sistema+VP-3831', acabados: ['Natural', 'Blanco'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Ventana', detailSpecs: '["Juego Completo"]' }
+            ],
+            'Ventana Corrediza VC-5020': [
+                { id: 'VC5020-01', name: 'Juego Completo VC-5020', desc: 'Juego completo de perfiles', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Sistema+VC-5020', acabados: ['Natural', 'Blanco', 'Crudo'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Ventana', detailSpecs: '["Juego Completo"]' }
+            ],
+            'Ventana Corrediza VC-526': [
+                { id: 'VC526-01', name: 'Juego Completo VC-526', desc: 'Juego completo de perfiles', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Sistema+VC-526', acabados: ['Natural', 'Blanco', 'Crudo'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Ventana', detailSpecs: '["Juego Completo"]' }
+            ],
+            'Ventana Corrediza VC-3825': [
+                { id: 'VC3825-01', name: 'Juego Completo VC-3825', desc: 'Juego completo de perfiles', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Sistema+VC-3825', acabados: ['Natural', 'Blanco', 'Crudo'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Ventana', detailSpecs: '["Juego Completo"]' }
+            ],
+            'Divisiones de Oficina': [
+                { id: 'DO-01', name: 'Sistema División Oficina', desc: 'Perfiles para división', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Division+Oficina', acabados: ['Natural', 'Blanco'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Division', detailSpecs: '["..."]' }
+            ],
+            'Particiones Modulares': [
+                { id: 'PM-01', name: 'Sistema Partición Modular', desc: 'Perfiles para partición', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Particion+Modular', acabados: ['Natural', 'Blanco'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Division', detailSpecs: '["..."]' }
+            ],
+
+            // --- Categoría 5: Comerciales y Especiales ---
+            'Vitrinas Comerciales 5025': [
+                { id: 'VIT5025-01', name: 'Sistema Vitrina 5025', desc: 'Perfiles para vitrina', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Vitrina+5025', acabados: ['Natural', 'Crudo'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Vitrina', detailSpecs: '["..."]' }
+            ],
+            'Vitrinas Comerciales 7638': [
+                { id: 'VIT7638-01', name: 'Sistema Vitrina 7638', desc: 'Perfiles para vitrina', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Vitrina+7638', acabados: ['Natural', 'Crudo'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Vitrina', detailSpecs: '["..."]' }
+            ],
+            'Cabinas de Baño Corredizas 4215': [
+                { id: 'CB4215-01', name: 'Sistema Cabina Baño 4215', desc: 'Perfiles para cabina', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Cabina+Baño', acabados: ['Natural', 'Blanco'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Cabina', detailSpecs: '["..."]' }
+            ],
+            'Cielorrasos': [
+                { id: 'CIELO-01', name: 'Perfil Cielorraso', desc: 'Perfil para cielorraso', diagramImg: 'httpsD://placehold.co/400x200/E5E7EB/1F2937?text=Cielorraso', acabados: ['Blanco'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Cielo', detailSpecs: '["..."]' }
+            ],
+            'Fachada Flotante': [
+                { id: 'FF-01', name: 'Sistema Fachada Flotante', desc: 'Perfiles para fachada', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Fachada+Flotante', acabados: ['Natural', 'Crudo'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Fachada', detailSpecs: '["..."]' }
+            ],
+            'Persianas': [
+                { id: 'PERS-01', name: 'Perfil Persiana', desc: 'Perfil para persiana', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Persiana', acabados: ['Blanco'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Persiana', detailSpecs: '["..."]' }
+            ],
+            'Furgón': [
+                { id: 'FURG-01', name: 'Perfil Furgón', desc: 'Perfil estructural furgón', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Furgon', acabados: ['Crudo'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Furgon', detailSpecs: '["..."]' }
+            ],
+            'Ductos y Tapas': [
+                { id: 'DUCT-01', name: 'Ducto y Tapa', desc: 'Sistema de ducto y tapa', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Ducto', acabados: ['Natural'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Ducto', detailSpecs: '["..."]' }
+            ],
+            'Pasamanos': [
+                { id: 'PASA-01', name: 'Perfil Pasamanos', desc: 'Perfil para pasamanos', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Pasamanos', acabados: ['Natural', 'Crudo'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Pasamanos', detailSpecs: '["..."]' }
+            ],
+            'Canal Con Aleta / Sencilla': [
+                { id: 'CANAL-01', name: 'Canal con Aleta', desc: 'Canal con aleta', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Canal', acabados: ['Natural', 'Crudo'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Canal', detailSpecs: '["..."]' }
+            ],
+            'Rieles': [
+                { id: 'RIEL-01', name: 'Riel Tipo U', desc: 'Riel para portón', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Riel', acabados: ['Natural', 'Crudo'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Riel', detailSpecs: '["..."]' }
+            ],
+            'Cortineros': [
+                { id: 'CORT-01', name: 'Perfil Cortinero', desc: 'Sistema de cortinero', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Cortinero', acabados: ['Blanco', 'Natural'], detailImg: 'https...://placehold.co/600x400/F97316/FFFFFF?text=Foto+Cortinero', detailSpecs: '["..."]' }
+            ],
+            'Alfajías': [
+                { id: 'ALFA-01', name: 'Perfil Alfajía', desc: 'Perfil para alfajía', diagramImg: 'https://placehold.co/400x200/E5E7EB/1F2937?text=Alfajia', acabados: ['Blanco', 'Natural'], detailImg: 'https://placehold.co/600x400/F97316/FFFFFF?text=Foto+Alfajia', detailSpecs: '["..."]' }
+            ]
+        };
+
+
+        /**
+         * Genera el HTML para una sola tarjeta de producto interactiva.
+         * @param {object} product - El objeto del producto de productData.
+         * @returns {string} - El string HTML de la tarjeta.
+         */
+        function productCardHTML(product) {
+            // Generar opciones de acabado
+            let acabadosOptions = product.acabados.map(acabado => 
+                `<option value="${acabado}">${acabado}</option>`
+            ).join('');
+
+            // Asegurar que detailSpecs sea un string JSON válido
+             let detailSpecsString = product.detailSpecs;
+             try {
+                // Intenta parsear para validar, luego lo vuelve a convertir en string
+                 JSON.parse(detailSpecsString); 
+             } catch (e) {
+                 console.warn(`Invalid JSON in detailSpecs for product ${product.id}. Using empty array. Original:`, detailSpecsString);
+                 detailSpecsString = '[]'; // Fallback a un array vacío si no es JSON válido
+             }
+
+
+            return `
+                <div class="product-card-interactive bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden flex flex-col" data-product-id="${product.id}" data-product-name="${product.name}">
+                    <div class="bg-gray-100 p-4 border-b border-gray-200">
+                        <img src="${product.diagramImg}" alt="Diagrama de ${product.name}" class="w-full h-auto object-contain rounded">
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow">
+                         <h4 class="text-xl font-bold font-heading text-otto-dark">${product.id}</h4>
+                        <p class="text-gray-600 mb-4">${product.desc}</p>
+                        
+                        <div class="space-y-3 mb-4">
+                            <div>
+                                <label for="acabado-${product.id}" class="block text-sm font-medium text-gray-700 mb-1">Acabado:</label>
+                                <select id="acabado-${product.id}" name="acabado" class="acabado-select w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-otto-orange focus:border-otto-orange">
+                                    ${acabadosOptions}
+                                </select>
+                            </div>
+                            <div>
+                                <label for="medida-${product.id}" class="block text-sm font-medium text-gray-700 mb-1">Medida (Longitud):</label>
+                                <div class="flex items-center space-x-3">
+                                    <input id="medida-${product.id}" name="medida" type="range" min="0.5" max="6.0" value="6.0" step="0.1" class="medida-slider w-full" oninput="updateSliderValue(this)">
+                                     <span class="medida-value-display font-bold text-otto-dark w-16 text-right">6.0 m</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="cantidad-${product.id}" class="block text-sm font-medium text-gray-700 mb-1">Cantidad:</label>
+                                <div class="quantity-input flex">
+                                    <button onclick="cambiarCantidad(this, -1)" class="px-3 py-2 bg-gray-200 text-gray-700 rounded-l-md hover:bg-gray-300">-</button>
+                                    <input id="cantidad-${product.id}" name="cantidad" type="number" value="1" min="1" class="cantidad-input w-full text-center border-t border-b border-gray-300 p-2">
+                                    <button onclick="cambiarCantidad(this, 1)" class="px-3 py-2 bg-gray-200 text-gray-700 rounded-r-md hover:bg-gray-300">+</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-auto space-y-2">
+                            <button onclick="agregarACotizacion(this)" class="w-full py-2 px-4 bg-otto-orange text-white font-semibold rounded-lg shadow-md hover:bg-orange-600 transition duration-300">
+                                Añadir a cotización
+                            </button>
+                             <button class="w-full py-2 px-4 bg-white text-otto-dark border border-gray-300 font-semibold rounded-lg hover:bg-gray-50 transition duration-300"
+                                    onclick="openModal(this)"
+                                    data-title="${product.name}"
+                                    data-img="${product.detailImg}"
+                                    data-sizes='${detailSpecsString}'>
+                                Detalles de producto
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Elementos del modal de categoría
+        const categoryModal = document.getElementById('category-modal');
+        const categoryModalTitle = document.getElementById('category-modal-title');
+        const categoryModalGrid = document.getElementById('category-modal-grid');
+
+        /**
+         * Actualiza el texto que muestra el valor del slider.
+         * @param {HTMLInputElement} slider - El input de tipo "range".
+         */
+        function updateSliderValue(slider) {
+            const display = slider.parentElement.querySelector('.medida-value-display');
+            if (display) {
+                display.textContent = `${parseFloat(slider.value).toFixed(1)} m`;
+            }
+        }
+
+        /**
+         * Abre el modal de CATEGORÍA y lo rellena con productos.
+         * @param {string} categoryName - El nombre de la categoría (ej: "Ángulos de lados iguales").
+         */
+        function openCategoryModal(categoryName) {
+            if (!categoryModal || !categoryModalTitle || !categoryModalGrid) return;
+
+            const products = productData[categoryName] || [];
+            
+            // 1. Poner el título
+            categoryModalTitle.textContent = categoryName;
+
+            // 2. Limpiar y rellenar la cuadrícula de productos
+            categoryModalGrid.innerHTML = ""; // Limpiar
+            if (products.length > 0) {
+                let gridHTML = "";
+                products.forEach(product => {
+                    gridHTML += productCardHTML(product);
+                });
+                categoryModalGrid.innerHTML = gridHTML;
+            } else {
+                categoryModalGrid.innerHTML = `<p class="text-gray-600 text-lg col-span-full text-center p-8">No hay productos disponibles en esta categoría ("${categoryName}") por el momento.</p>`;
+            }
+
+            // 3. Mostrar el modal
+            categoryModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        /**
+         * Cierra el modal de CATEGORÍA.
+         */
+        function closeCategoryModal() {
+            if (categoryModal) {
+                categoryModal.classList.add('hidden');
+                // Solo restaura el scroll si el modal de detalle TAMBIÉN está cerrado
+                if (productModal.classList.contains('hidden')) {
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        }
+
+        // --- FIN LÓGICA MODAL CATEGORÍA ---
+
+        // <!-- BOTÓN FLOTANTE DE TELEGRAM (Añadido aquí) -->
+    <a href="https://t.me/TuNombreDeUsuario" target="_blank" rel="noopener noreferrer"
+        class="fixed bottom-6 right-6 z-50 p-4 bg-otto-orange text-white rounded-full shadow-xl transition duration-300 ease-in-out hover:bg-orange-600 transform hover:scale-110 active:scale-95 sm:p-5"
+        aria-label="Contactar por Telegram">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 sm:h-9 w-9" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4.332 7.766l-2.052 9.289c-.198.895-.758 1.113-1.523.682l-3.376-2.497-.689 3.292c-.22 1.077-.821 1.258-1.748.591l.248-1.55 4.39-3.955c.343-.324-.075-.502-.519-.158l-5.485 3.421-1.076-.339c-.93-.294-.678-.962-.128-1.465l1.637-1.579 6.811-6.52c.319-.307-.076-.475-.494-.148l-6.852 4.205-1.503-.473c-.93-.294-1.29-.553-1.246-1.517.022-.49.196-.864.558-1.189l10.598-6.388c.677-.406 1.392-.284 1.743.158.411.512.234 1.13-.198 1.487z"/>
+        </svg>
+    </a>
+
+    </script>
+</body>
+</html>
