@@ -175,6 +175,8 @@ const CategoryModal = ({ isOpen, onClose, title, products, onAddToCart }) => {
   
   // ESTADO PARA EL ZOOM DE IMAGEN
   const [zoomImg, setZoomImg] = useState(null);
+  // Estado para escoger la mejor imagen a mostrar en la ficha (fallbacks)
+  const [displayedImg, setDisplayedImg] = useState(null);
 
   useEffect(() => {
     if (!isOpen) {
@@ -189,6 +191,17 @@ const CategoryModal = ({ isOpen, onClose, title, products, onAddToCart }) => {
     else document.body.style.overflow = 'auto';
     return () => { document.body.style.overflow = 'auto'; };
   }, [isOpen]);
+
+  // Actualizar displayedImg cuando cambia el producto seleccionado
+  useEffect(() => {
+    if (selectedProduct) {
+      // Priorizar detailImg, luego tipologias img, luego diagramImg
+      const candidate = selectedProduct.detailImg || selectedProduct.sections?.tipologias?.img || selectedProduct.diagramImg || '/assets/img/default.jpg';
+      setDisplayedImg(candidate);
+    } else {
+      setDisplayedImg(null);
+    }
+  }, [selectedProduct]);
   
   // Inyectar Schema.org cuando se selecciona un producto
   useEffect(() => {
@@ -241,7 +254,7 @@ const CategoryModal = ({ isOpen, onClose, title, products, onAddToCart }) => {
               items={[
                 { label: 'Inicio', href: '/' },
                 { label: 'Productos', href: '#productos' },
-                { label: categoryName },
+                { label: title },
                 { label: selectedProduct.name }
               ]}
             />
@@ -313,14 +326,26 @@ const CategoryModal = ({ isOpen, onClose, title, products, onAddToCart }) => {
                   <div className="lg:col-span-4 space-y-8">
                     <div 
                       className="relative rounded-3xl overflow-hidden shadow-xl border-4 border-white cursor-zoom-in group"
-                      onClick={() => setZoomImg(selectedProduct.detailImg)}
+                      onClick={() => setZoomImg(displayedImg || selectedProduct?.detailImg)}
                     >
                       <img 
-                        src={selectedProduct.detailImg} 
-                        className="w-full object-cover aspect-square group-hover:scale-105 transition-transform duration-700" 
+                        src={displayedImg || selectedProduct?.detailImg}
+                        className="w-full max-h-[420px] mx-auto object-contain group-hover:scale-105 transition-transform duration-700 bg-white"
                         alt={`Detalle ${selectedProduct.name} - Sistema de aluminio`}
                         loading="lazy"
-                        onError={(e) => {e.target.src = '/assets/img/default.jpg'}}
+                        onError={(e) => {e.target.src = '/assets/img/default.jpg';}}
+                        onLoad={(e) => {
+                          // Si la imagen cargada es de muy baja resolución, intentar fallback a diagramImg
+                          try {
+                            const img = e.target;
+                            if (img.naturalWidth && img.naturalWidth < 400) {
+                              const altCandidate = selectedProduct.sections?.tipologias?.img || selectedProduct.diagramImg;
+                              if (altCandidate && altCandidate !== img.src) setDisplayedImg(altCandidate);
+                            }
+                          } catch (err) {
+                            // noop
+                          }
+                        }}
                       />
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all flex items-center justify-center">
                         <div className="bg-white/20 backdrop-blur-md p-4 rounded-full opacity-0 group-hover:opacity-100 transition-all scale-50 group-hover:scale-100">

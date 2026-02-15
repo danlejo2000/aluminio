@@ -24,6 +24,42 @@ function App() {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
+  // Enviar page_view a Google Analytics en cada cambio de ruta (SPA hash-based)
+  useEffect(() => {
+    const sendPageView = () => {
+      try {
+        if (window.gtag && typeof window.gtag === 'function') {
+          const page_path = window.location.pathname + window.location.hash;
+          window.gtag('event', 'page_view', { page_path });
+        }
+      } catch (err) {
+        // noop - evitar romper la app si gtag no está disponible
+      }
+    };
+
+    // Enviar al cargar la app y en cada cambio de hash
+    sendPageView();
+    window.addEventListener('hashchange', sendPageView);
+    return () => window.removeEventListener('hashchange', sendPageView);
+  }, []);
+
+  // Envío de evento de prueba automático en entorno de desarrollo (solo localhost)
+  useEffect(() => {
+    try {
+      const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      if (isLocal && import.meta.env.DEV && window.gtag && typeof window.gtag === 'function') {
+        window.gtag('event', 'integration_test', {
+          send_to: 'G-ZJDJJ5QM3P',
+          debug_mode: true,
+          origin: 'local_dev_auto_test'
+        });
+        console.log('GA integration_test event sent (dev)');
+      }
+    } catch (err) {
+      console.warn('GA test event failed', err);
+    }
+  }, []);
+
   return (
     <ShopProvider>
       <MainLayout>
